@@ -1,0 +1,27 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  # Build image for running the tests
+  - docker build -f ./client/Dockerfile.dev -t mardini0803/fibonacci-client-test ./client
+
+script:
+  # Run the tests only for the client
+  - docker run mardini0803/fibonacci-client-test npm test -- --coverage
+
+after_success:
+  # Build all the images
+  - docker build -t mardini0803/fibonacci-client ./client
+  - docker build -t mardini0803/fibonacci-server ./server
+  - docker build -t mardini0803/fibonacci-worker ./worker
+  - docker build -t mardini0803/fibonacci-ngninx ./nginx
+
+  # Log in to the Docker Hub
+  - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
+
+  # Push built images to Docker Hub
+  - docker push mardini0803/fibonacci-client
+  - docker push mardini0803/fibonacci-server
+  - docker push mardini0803/fibonacci-worker
+  - docker push mardini0803/fibonacci-ngninx
