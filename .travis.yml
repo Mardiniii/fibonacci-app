@@ -15,7 +15,7 @@ after_success:
   - docker build -t mardini0803/fibonacci-client ./client
   - docker build -t mardini0803/fibonacci-server ./server
   - docker build -t mardini0803/fibonacci-worker ./worker
-  - docker build -t mardini0803/fibonacci-ngninx ./nginx
+  - docker build -t mardini0803/fibonacci-nginx ./nginx
 
   # Log in to the Docker Hub
   - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
@@ -24,7 +24,7 @@ after_success:
   - docker push mardini0803/fibonacci-client
   - docker push mardini0803/fibonacci-server
   - docker push mardini0803/fibonacci-worker
-  - docker push mardini0803/fibonacci-ngninx
+  - docker push mardini0803/fibonacci-nginx
 
 deploy:
   provider: elasticbeanstalk
