@@ -25,3 +25,16 @@ after_success:
   - docker push mardini0803/fibonacci-server
   - docker push mardini0803/fibonacci-worker
   - docker push mardini0803/fibonacci-ngninx
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "fibonacci-app"
+  env: "FibonacciApp-env"
+  bucket_name: "elasticbeanstalk-us-east-1-101888553113"
+  bucket_path: "fibonacci-app"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
